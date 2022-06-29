@@ -6,6 +6,10 @@ import { Logo } from "../components/Logo";
 import { useCreateSubscriberMutation } from "../graphql/generated";
 
 
+import imageCode from "../assets/imageCode.svg";
+import classNames from 'classnames'
+
+
 
 export function Subscribe() {
   const navigate = useNavigate()
@@ -13,7 +17,10 @@ export function Subscribe() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
 
-  const [createSubscriber, { loading }] = useCreateSubscriberMutation()
+  const [createSubscriber, { loading, client }] = useCreateSubscriberMutation()
+
+  //const isError = error?.message === 'Response not successful: Received status code 400'
+
 
   async function handleSubscribe(event: FormEvent) {
     event.preventDefault()
@@ -27,10 +34,10 @@ export function Subscribe() {
 
     navigate('/event')
   }
-
+  console.log({ client })
 
   return (
-    <div className="min-h-screen bg-cover bg-no-repeat flex flex-col items-center">
+    <div className="min-h-screen bg-cover bg-no-repeat flex flex-col items-center bg-[url('../assets/blurBackground.png')]">
       <div className=" w-full max-w-[1100px] flex items-center justify-between mt-20 mx-auto">
         <div className="max-w-[640px]">
           <Logo />
@@ -57,7 +64,9 @@ export function Subscribe() {
               onChange={event => { setName(event.target.value) }}
             />
             <input
-              className="bg-gray-900 rounded px-5 h-14"
+              className={classNames("bg-gray-900 rounded px-5 h-14", {
+
+              })}
               type="email"
               placeholder="Digite seu e-mail"
               onChange={event => { setEmail(event.target.value) }}
@@ -75,8 +84,8 @@ export function Subscribe() {
 
         </div>
       </div>
-
-      <ImageCode />
+      <img src={imageCode} className="mt-[-30px]" />
+      {/* <ImageCode /> */}
     </div>
   )
 }
